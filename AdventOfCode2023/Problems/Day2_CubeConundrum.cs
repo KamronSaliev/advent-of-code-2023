@@ -8,10 +8,6 @@ namespace AdventOfCode2023.Problems
     {
         private readonly string _inputPath;
 
-        private const int RedCubeCount = 12;
-        private const int GreenCubeCount = 13;
-        private const int BlueCubeCount = 14;
-
         public Day2_CubeConundrum(string inputPath)
         {
             _inputPath = inputPath;
@@ -33,22 +29,26 @@ namespace AdventOfCode2023.Problems
         private int GetLineInfo(string line)
         {
             var gameInfo = line.Split(':');
-            var gameID = int.Parse(gameInfo.First().Replace("Game","").Trim());
             var gameDescription = gameInfo.Last().Trim();
             var rounds = gameDescription.Split(';');
 
+            var maxRed = -1;
+            var maxGreen = -1;
+            var maxBlue = -1;
+            
             foreach (var round in rounds)
             {
                 var cubes = round.Trim().Split(',');
                 var (red, green, blue) = GetCubeValues(cubes);
-                
-                if (red > RedCubeCount || green > GreenCubeCount || blue > BlueCubeCount)
-                {
-                    return 0;
-                }
+
+                maxRed = Math.Max(maxRed, red);
+                maxGreen = Math.Max(maxGreen, green);
+                maxBlue = Math.Max(maxBlue, blue);
             }
             
-            return gameID;
+            Console.WriteLine($"{maxRed}*{maxGreen}*{maxBlue}={maxRed * maxGreen * maxBlue}");
+
+            return maxRed * maxGreen * maxBlue;
         }
 
         private (int Red, int Green, int Blue) GetCubeValues(string[] cubes)
