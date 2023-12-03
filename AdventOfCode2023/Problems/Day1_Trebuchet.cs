@@ -17,17 +17,10 @@ namespace AdventOfCode2023.Problems
         {
             var lines = FileOperations.ReadLines(_inputPath);
             var calibrationValues = ParseCalibrationValues(lines);
-            
-            var result = calibrationValues.Sum();
-            Console.WriteLine($"Sum: {result}");
-        }
 
-        public void Log(List<string> lines, List<int> calibrationValues)
-        {
-            for (var i = 0; i < lines.Count; i++)
-            {
-                Console.WriteLine($"{i + 1}) {lines[i]} = {calibrationValues[i]}");
-            }
+            var result = calibrationValues.Sum();
+
+            Console.WriteLine($"Sum: {result}");
         }
 
         private List<int> ParseCalibrationValues(IEnumerable<string> lines)
@@ -37,7 +30,41 @@ namespace AdventOfCode2023.Problems
 
         private int ParseLine(string line)
         {
-            var digits = line.Where(char.IsDigit).Select(c => c - '0').ToArray();
+            var numberWords = new Dictionary<string, int>
+            {
+                { "one", 1 }, { "two", 2 }, { "three", 3 },
+                { "four", 4 }, { "five", 5 }, { "six", 6 },
+                { "seven", 7 }, { "eight", 8 }, { "nine", 9 }
+            };
+
+            var digits = new List<int>();
+
+            for (var i = 0; i < line.Length; i++)
+            {
+                if (char.IsDigit(line[i]))
+                {
+                    digits.Add(line[i] - '0');
+                }
+                else
+                {
+                    foreach (var numberWord in numberWords)
+                    {
+                        if (i + numberWord.Key.Length > line.Length)
+                        {
+                            continue;
+                        }
+
+                        var lineSubString = line.Substring(i, numberWord.Key.Length);
+                        if (string.CompareOrdinal(lineSubString, numberWord.Key) == 0)
+                        {
+                            digits.Add(numberWord.Value);
+                        }
+                    }
+                }
+            }
+
+            Console.WriteLine($"{line} -> {string.Join(" ", digits)} -> {digits.First() * 10 + digits.Last()}");
+
             return digits.First() * 10 + digits.Last();
         }
     }
