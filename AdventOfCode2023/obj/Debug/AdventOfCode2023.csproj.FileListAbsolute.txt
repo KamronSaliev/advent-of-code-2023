@@ -1,0 +1,12 @@
+/Users/kamronsaliev/RiderProjects/AdventOfCode2023/AdventOfCode2023/bin/Debug/AdventOfCode2023.exe
+/Users/kamronsaliev/RiderProjects/AdventOfCode2023/AdventOfCode2023/bin/Debug/AdventOfCode2023.pdb
+/Users/kamronsaliev/RiderProjects/AdventOfCode2023/AdventOfCode2023/obj/Debug/AdventOfCode2023.csproj.AssemblyReference.cache
+/Users/kamronsaliev/RiderProjects/AdventOfCode2023/AdventOfCode2023/obj/Debug/AdventOfCode2023.csproj.CoreCompileInputs.cache
+/Users/kamronsaliev/RiderProjects/AdventOfCode2023/AdventOfCode2023/obj/Debug/AdventOfCode2023.exe
+/Users/kamronsaliev/RiderProjects/AdventOfCode2023/AdventOfCode2023/obj/Debug/AdventOfCode2023.pdb
+/Users/kamronsaliev/Desktop/Files/Projects/_Personal/advent-of-code-2023/AdventOfCode2023/bin/Debug/AdventOfCode2023.exe
+/Users/kamronsaliev/Desktop/Files/Projects/_Personal/advent-of-code-2023/AdventOfCode2023/bin/Debug/AdventOfCode2023.pdb
+/Users/kamronsaliev/Desktop/Files/Projects/_Personal/advent-of-code-2023/AdventOfCode2023/obj/Debug/AdventOfCode2023.csproj.AssemblyReference.cache
+/Users/kamronsaliev/Desktop/Files/Projects/_Personal/advent-of-code-2023/AdventOfCode2023/obj/Debug/AdventOfCode2023.csproj.CoreCompileInputs.cache
+/Users/kamronsaliev/Desktop/Files/Projects/_Personal/advent-of-code-2023/AdventOfCode2023/obj/Debug/AdventOfCode2023.exe
+/Users/kamronsaliev/Desktop/Files/Projects/_Personal/advent-of-code-2023/AdventOfCode2023/obj/Debug/AdventOfCode2023.pdb
