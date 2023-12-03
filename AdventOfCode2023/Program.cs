@@ -17,8 +17,8 @@ namespace AdventOfCode2023
         
         private static void Solve()
         {
-            var trebuchetProblem = new Day1_Trebuchet("../../Problems/Day1_Trebuchet_Input.txt");
-            trebuchetProblem.Solve();
+            var problem = new Day2_CubeConundrum("../../Problems/Day2_CubeConundrum_Input.txt");
+            problem.Solve();
         }
     }
 }

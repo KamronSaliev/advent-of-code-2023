@@ -16,19 +16,17 @@ namespace AdventOfCode2023.Problems
         public void Solve()
         {
             var lines = FileOperations.ReadLines(_inputPath);
-            var calibrationValues = ParseCalibrationValues(lines);
-
+            var calibrationValues = GetInfo(lines);
             var result = calibrationValues.Sum();
-
             Console.WriteLine($"Sum: {result}");
         }
 
-        private List<int> ParseCalibrationValues(IEnumerable<string> lines)
+        private List<int> GetInfo(IEnumerable<string> lines)
         {
-            return lines.Select(ParseLine).ToList();
+            return lines.Select(GetLineInfo).ToList();
         }
 
-        private int ParseLine(string line)
+        private int GetLineInfo(string line)
         {
             var numberWords = new Dictionary<string, int>
             {
