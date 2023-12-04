@@ -8,105 +8,125 @@ namespace AdventOfCode2023.Problems
     public class Day3_GearRatios
     {
         private readonly string _inputPath;
-        
-        private readonly (int X, int Y)[] _directions =
-        {
-            (-1, -1), (-1, 0), (-1, 1), (0, 1), (1, 1), (1, 0), (1, -1), (0, -1)
-        };
-
-        private readonly char[] _matchableSymbols =
-        {
-            '+', '-', '*', '/', '@', '#', '$', '%', '&', '='
-        };
-
-        private readonly Dictionary<(int X, int Y), List<int>> _gears = new Dictionary<(int X, int Y), List<int>>();
+        private readonly Dictionary<(int X, int Y), List<int>> _gears;
 
         public Day3_GearRatios(string inputPath)
         {
             _inputPath = inputPath;
+            _gears = new Dictionary<(int X, int Y), List<int>>();
         }
 
         public void Solve()
         {
             var lines = FileOperations.ReadLines(_inputPath);
-            var result = 0;
-            var resultGearRatio = 0;
-
-            for (var i = 0; i < lines.Count; i++)
-            {
-                var matches = Regex.Matches(lines[i], "\\d+");
-
-                for (var j = 0; j < matches.Count; j++)
-                {
-                    result += ProcessMatch(matches[j], lines, i);
-                }
-            }
-
-            foreach (var gear in _gears)
-            {
-                Console.WriteLine($"{lines[gear.Key.X][gear.Key.Y]} {string.Join(" ", gear.Value)}");
-                
-                if (gear.Value.Count != 2)
-                {
-                    continue;
-                }
-
-                var product = 1;
-                foreach (var number in gear.Value)
-                {
-                    product *= number;
-                }
-
-                resultGearRatio += product;
-            }
+            var result = CalculateSum(lines);
+            var resultGearRatio = CalculateGearRatio();
 
             Console.WriteLine($"Sum: {result}");
             Console.WriteLine($"Gear Ratio: {resultGearRatio}");
         }
 
-        private int ProcessMatch(Match match, List<string> lines, int row)
+        private int CalculateSum(List<string> lines)
+        {
+            var sum = 0;
+
+            for (var i = 0; i < lines.Count; i++)
+            {
+                sum += ProcessLine(lines, i);
+            }
+
+            return sum;
+        }
+        
+        private int CalculateGearRatio()
+        {
+            var gearRatio = 0;
+            
+            foreach (var gear in _gears)
+            {
+                if (gear.Value.Count != 2)
+                {
+                    continue;
+                }
+
+                gearRatio += gear.Value.Aggregate(1, (current, number) => current * number);
+            }
+
+            return gearRatio;
+        }
+
+        private int ProcessLine(List<string> lines, int lineIndex)
+        {
+            var matches = Regex.Matches(lines[lineIndex], "\\d+");
+            var sum = 0;
+
+            for (var i = 0; i < matches.Count; i++)
+            {
+                sum += ProcessMatch(matches[i], lines, lineIndex);
+            }
+
+            return sum;
+        }
+
+        private int ProcessMatch(Match match, List<string> lines, int rowIndex)
         {
             var isSymbolAdjacent = false;
             var matchValue = int.Parse(match.Value);
 
             for (var i = match.Index; i < match.Index + match.Length; i++)
             {
-                foreach (var direction in _directions)
-                {
-                    var x = row + direction.X;
-                    var y = i + direction.Y;
-
-                    if (x < 0 || x >= lines.Count || y < 0 || y >= lines[0].Length)
-                    {
-                        continue;
-                    }
-
-                    if (_matchableSymbols.All(c => lines[x][y] != c) || isSymbolAdjacent)
-                    {
-                        continue;
-                    }
-
-                    isSymbolAdjacent = true;
-
-                    if (lines[x][y] != '*')
-                    {
-                        continue;
-                    }
-
-                    if (!_gears.TryGetValue((x, y), out var numbers))
-                    {
-                        _gears[(x, y)] = new List<int> { matchValue };
-                    }
-                    else
-                    {
-                        numbers.Add(matchValue);
-                    }
-                }
+                isSymbolAdjacent = CheckForAdjacentSymbols(lines, rowIndex, i, matchValue, isSymbolAdjacent) || isSymbolAdjacent;
             }
 
-            Console.WriteLine($"{match.Value}, isSymbolAdjacent: {isSymbolAdjacent}");
+            return isSymbolAdjacent ? matchValue : 0;
+        }
 
-            return !isSymbolAdjacent ? 0 : matchValue;
+        private bool CheckForAdjacentSymbols(List<string> lines, int rowIndex, int columnIndex, int matchValue, bool isSymbolAdjacent)
+        {
+            (int X, int Y)[] directions = { (-1, -1), (-1, 0), (-1, 1), (0, 1), (1, 1), (1, 0), (1, -1), (0, -1) };
+
+            foreach (var direction in directions)
+            {
+                var x = rowIndex + direction.X;
+                var y = columnIndex + direction.Y;
+
+                if (!IsWithinBounds(x, y, lines) || !IsMatchableSymbol(lines[x][y]) || isSymbolAdjacent)
+                {
+                    continue;
+                }
+
+                if (lines[x][y] == '*')
+                {
+                    UpdateGears(x, y, matchValue);
+                }
+
+                return true;
+            }
+
+            return false;
+        }
+
+        private void UpdateGears(int x, int y, int matchValue)
+        {
+            if (!_gears.TryGetValue((x, y), out var numbers))
+            {
+                _gears[(x, y)] = new List<int> { matchValue };
+            }
+            else
+            {
+                numbers.Add(matchValue);
+            }
+        }
+
+        private bool IsWithinBounds(int x, int y, List<string> lines)
+        {
+            return x >= 0 && x < lines.Count && y >= 0 && y < lines[0].Length;
+        }
+
+        private bool IsMatchableSymbol(char c)
+        {
+            char[] matchableSymbols = { '+', '-', '*', '/', '@', '#', '$', '%', '&', '=' };
+            return matchableSymbols.Contains(c);
         }
     }
 }
