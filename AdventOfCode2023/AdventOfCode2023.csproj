@@ -44,6 +44,7 @@
         <Compile Include="Problems\Day1_Trebuchet.cs" />
         <Compile Include="Problems\Day2_CubeConundrum.cs" />
         <Compile Include="Problems\Day3_GearRatios.cs" />
+        <Compile Include="Problems\Day4_Scratchcards.cs" />
         <Compile Include="Program.cs"/>
         <Compile Include="Properties\AssemblyInfo.cs"/>
     </ItemGroup>
@@ -51,6 +52,7 @@
       <Content Include="Problems\Day1_Trebuchet_Input.txt" />
       <Content Include="Problems\Day2_CubeConundrum_Input.txt" />
       <Content Include="Problems\Day3_GearRatios_Input.txt" />
+      <Content Include="Problems\Day4_Scratchcards_Input.txt" />
     </ItemGroup>
     <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets"/>
     <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
