@@ -16,17 +16,17 @@ namespace AdventOfCode2023.Problems
         public void Solve()
         {
             var lines = FileOperations.ReadLines(_inputPath);
-            var possibleGameIDs = GetInfo(lines);
+            var possibleGameIDs = GetPossibleGameIDs(lines);
             var result = possibleGameIDs.Sum();
             Console.WriteLine($"Sum: {result}");
         }
 
-        private List<int> GetInfo(IEnumerable<string> lines)
+        private List<int> GetPossibleGameIDs(IEnumerable<string> lines)
         {
-            return lines.Select(GetLineInfo).ToList();
+            return lines.Select(ProcessLine).ToList();
         }
 
-        private int GetLineInfo(string line)
+        private int ProcessLine(string line)
         {
             var gameInfo = line.Split(':');
             var gameDescription = gameInfo.Last().Trim();
@@ -39,7 +39,7 @@ namespace AdventOfCode2023.Problems
             foreach (var round in rounds)
             {
                 var cubes = round.Trim().Split(',');
-                var (red, green, blue) = GetCubeValues(cubes);
+                var (red, green, blue) = ProcessCubeValues(cubes);
 
                 maxRed = Math.Max(maxRed, red);
                 maxGreen = Math.Max(maxGreen, green);
@@ -51,7 +51,7 @@ namespace AdventOfCode2023.Problems
             return maxRed * maxGreen * maxBlue;
         }
 
-        private (int Red, int Green, int Blue) GetCubeValues(string[] cubes)
+        private (int Red, int Green, int Blue) ProcessCubeValues(string[] cubes)
         {
             var red = 0;
             var green = 0;
