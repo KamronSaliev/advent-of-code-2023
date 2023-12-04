@@ -17,7 +17,7 @@ namespace AdventOfCode2023
         
         private static void Solve()
         {
-            var problem = new Day2_CubeConundrum("../../Problems/Day2_CubeConundrum_Input.txt");
+            var problem = new Day3_GearRatios("../../Problems/Day3_GearRatios_Input.txt");
             problem.Solve();
         }
     }
