@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 
 namespace AdventOfCode2023.Problems
@@ -39,18 +40,18 @@ namespace AdventOfCode2023.Problems
 
         public void Solve()
         {
-            var watch = System.Diagnostics.Stopwatch.StartNew();
-            
+            var watch = Stopwatch.StartNew();
+
             var lines = FileOperations.ReadLines(_inputPath);
             var seeds = ProcessNumbers(SeedsLineIndex, lines);
             var seedRanges = ProcessNumberRanges(SeedsLineIndex, lines);
             var maps = ProcessMaps(lines);
-            var minLocationValue = GetMinimumLocationValue(seeds, maps);
-            var minLocationValueInRanges = GetMinimumLocationValueInRanges(seedRanges, maps);
+            var minLocationValue = GetMinLocation(seeds, maps);
+            var minLocationValueInRanges = GetMinLocationInRange(seedRanges, maps);
 
             Console.WriteLine($"Lowest Location: {minLocationValue}");
             Console.WriteLine($"Lowest Location in Ranges: {minLocationValueInRanges}");
-            
+
             watch.Stop();
             Console.WriteLine($"Stopwatch: {watch.ElapsedMilliseconds}ms, {watch.ElapsedMilliseconds / 1000.0d}s");
         }
@@ -68,25 +69,23 @@ namespace AdventOfCode2023.Problems
             return maps;
         }
 
-        private long GetMinimumLocationValue(IEnumerable<long> seeds, List<List<MapData>> maps)
+        private long GetMinLocation(IEnumerable<long> seeds, List<List<MapData>> maps)
         {
-            return seeds.Select(seed => GetLocationValue(seed, maps)).Min();
+            return seeds.AsParallel().Select(seed => GetLocation(seed, maps)).Min();
         }
 
-        private long GetMinimumLocationValueInRanges(IEnumerable<(long Start, long Length)> seedRanges,
-            List<List<MapData>> maps)
+        private long GetMinLocationInRange(IEnumerable<(long Start, long Length)> seedRanges, List<List<MapData>> maps)
         {
-            return seedRanges.SelectMany(range => Enumerable.Range(0, (int)range.Length)
-                    .Select(offset => GetLocationValue(range.Start + offset, maps)))
-                .Min();
+            return seedRanges.AsParallel().SelectMany(range => ParallelEnumerable.Range(0, (int)range.Length)
+                .Select(offset => GetLocation(range.Start + offset, maps))).Min();
         }
 
-        private long GetLocationValue(long number, List<List<MapData>> maps)
+        private long GetLocation(long number, List<List<MapData>> maps)
         {
-            return maps.Aggregate(number, GetMapValue);
+            return maps.Aggregate(number, GetMappedValue);
         }
 
-        private long GetMapValue(long number, List<MapData> map)
+        private long GetMappedValue(long number, List<MapData> map)
         {
             foreach (var mapData in map)
             {
