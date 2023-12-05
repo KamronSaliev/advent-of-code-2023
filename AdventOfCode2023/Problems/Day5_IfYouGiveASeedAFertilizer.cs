@@ -28,6 +28,7 @@ namespace AdventOfCode2023.Problems
         private const int SeedsLineIndex = 0;
         private const int MapsStartLineIndex = 3;
         private const int MapLineIndexIncrement = 2;
+        private const int MapsCount = 7;
 
         private readonly string _inputPath;
 
@@ -38,82 +39,51 @@ namespace AdventOfCode2023.Problems
 
         public void Solve()
         {
+            var watch = System.Diagnostics.Stopwatch.StartNew();
+            
             var lines = FileOperations.ReadLines(_inputPath);
-
             var seeds = ProcessNumbers(SeedsLineIndex, lines);
             var seedRanges = ProcessNumberRanges(SeedsLineIndex, lines);
-
-            var lineIndex = MapsStartLineIndex;
-            var seedToSoilMap = ProcessMap(ref lineIndex, lines);
-            var soilToFertilizerMap = ProcessMap(ref lineIndex, lines);
-            var fertilizerToWater = ProcessMap(ref lineIndex, lines);
-            var waterToLight = ProcessMap(ref lineIndex, lines);
-            var lightToTemperature = ProcessMap(ref lineIndex, lines);
-            var temperatureToHumidity = ProcessMap(ref lineIndex, lines);
-            var humidityToLocation = ProcessMap(ref lineIndex, lines);
-
-            var minLocationValue = long.MaxValue;
-            var minLocationValueInRanges = long.MaxValue;
-
-            foreach (var seed in seeds)
-            {
-                var value = GetLocationValue
-                (
-                    seed,
-                    seedToSoilMap,
-                    soilToFertilizerMap,
-                    fertilizerToWater,
-                    waterToLight,
-                    lightToTemperature,
-                    temperatureToHumidity,
-                    humidityToLocation
-                );
-                minLocationValue = Math.Min(minLocationValue, value);
-            }
-
-            foreach (var seedRange in seedRanges)
-            {
-                for (var i = 0; i < seedRange.Length; i++)
-                {
-                    var value = GetLocationValue
-                    (
-                        seedRange.Start + i,
-                        seedToSoilMap,
-                        soilToFertilizerMap,
-                        fertilizerToWater,
-                        waterToLight,
-                        lightToTemperature,
-                        temperatureToHumidity,
-                        humidityToLocation
-                    );
-                    minLocationValueInRanges = Math.Min(minLocationValueInRanges, value);
-                }
-            }
+            var maps = ProcessMaps(lines);
+            var minLocationValue = GetMinimumLocationValue(seeds, maps);
+            var minLocationValueInRanges = GetMinimumLocationValueInRanges(seedRanges, maps);
 
             Console.WriteLine($"Lowest Location: {minLocationValue}");
             Console.WriteLine($"Lowest Location in Ranges: {minLocationValueInRanges}");
+            
+            watch.Stop();
+            Console.WriteLine($"Stopwatch: {watch.ElapsedMilliseconds}ms, {watch.ElapsedMilliseconds / 1000.0d}s");
         }
 
-        private long GetLocationValue
-        (
-            long number,
-            List<MapData> seedToSoilMap,
-            List<MapData> soilToFertilizerMap,
-            List<MapData> fertilizerToWater,
-            List<MapData> waterToLight,
-            List<MapData> lightToTemperature,
-            List<MapData> temperatureToHumidity,
-            List<MapData> humidityToLocation
-        )
+        private List<List<MapData>> ProcessMaps(List<string> lines)
         {
-            var value = GetMapValue(number, seedToSoilMap);
-            value = GetMapValue(value, soilToFertilizerMap);
-            value = GetMapValue(value, fertilizerToWater);
-            value = GetMapValue(value, waterToLight);
-            value = GetMapValue(value, lightToTemperature);
-            value = GetMapValue(value, temperatureToHumidity);
-            value = GetMapValue(value, humidityToLocation);
-            return value;
+            var lineIndex = MapsStartLineIndex;
+            var maps = new List<List<MapData>>();
+
+            for (var i = 0; i < MapsCount; i++)
+            {
+                maps.Add(ProcessMap(ref lineIndex, lines));
+            }
+
+            return maps;
+        }
+
+        private long GetMinimumLocationValue(IEnumerable<long> seeds, List<List<MapData>> maps)
+        {
+            return seeds.Select(seed => GetLocationValue(seed, maps)).Min();
+        }
+
+        private long GetMinimumLocationValueInRanges(IEnumerable<(long Start, long Length)> seedRanges,
+            List<List<MapData>> maps)
+        {
+            return seedRanges.SelectMany(range => Enumerable.Range(0, (int)range.Length)
+                    .Select(offset => GetLocationValue(range.Start + offset, maps)))
+                .Min();
+        }
+
+        private long GetLocationValue(long number, List<List<MapData>> maps)
+        {
+            return maps.Aggregate(number, GetMapValue);
         }
 
         private long GetMapValue(long number, List<MapData> map)
@@ -155,7 +125,7 @@ namespace AdventOfCode2023.Problems
             {
                 numberRanges[i] = (numbers[i * 2], numbers[i * 2 + 1]);
             }
-            
+
             return numberRanges;
         }
 
