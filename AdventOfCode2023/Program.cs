@@ -17,7 +17,7 @@ namespace AdventOfCode2023
         
         private static void Solve()
         {
-            var problem = new Day5_IfYouGiveASeedAFertilizer("../../Problems/Day5_IfYouGiveASeedAFertilizer_Input.txt");
+            var problem = new Day6_WaitForIt("../../Problems/Day6_WaitForIt_Input.txt");
             problem.Solve();
         }
     }
