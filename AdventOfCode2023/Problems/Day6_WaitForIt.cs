@@ -31,6 +31,12 @@ namespace AdventOfCode2023.Problems
             }
             
             Console.WriteLine($"Number of Ways to Win [Result 1]: {result1}");
+
+            var totalTime = long.Parse(string.Join("", times));
+            var totalDistance = long.Parse(string.Join("", distances));
+            var result2 = CalculateWaysToWin(totalTime, totalDistance);
+            
+            Console.WriteLine($"Number of Ways to Win [Result 2]: {result2}");
         }
 
         private List<long> ProcessLine(string line)
