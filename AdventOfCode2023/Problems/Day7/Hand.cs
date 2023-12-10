@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -5,61 +6,52 @@ namespace AdventOfCode2023.Problems.Day7
 {
     public class Hand
     {
-        public readonly HandType Type;
-        public readonly int Bid;
-        public readonly List<int> Cards = new();
-
-        private readonly string _description;
+        public HandType Type { get; private set; }
+        public int Bid { get; private set; }
+        public List<int> Cards { get; } = new();
+        public string Description { get; }
 
         public Hand(string description, int bid, bool isWithJokers = false)
         {
-            _description = description;
-
+            Description = description;
             Bid = bid;
+            ParseCards(description, isWithJokers);
 
-            foreach (var card in description)
-            {
-                switch (card)
-                {
-                    case 'A':
-                        Cards.Add(14);
-                        break;
-                    case 'K':
-                        Cards.Add(13);
-                        break;
-                    case 'Q':
-                        Cards.Add(12);
-                        break;
-                    case 'J':
-                        Cards.Add(isWithJokers ? 1 : 11);
-                        break;
-                    case 'T':
-                        Cards.Add(10);
-                        break;
-                    default:
-                        Cards.Add(int.Parse(card.ToString()));
-                        break;
-                }
-            }
-
-            var cardCount = CountCards(Cards);
+            var cardCount = CountCards();
             Type = isWithJokers ? CalculateHandTypeWithJokers(cardCount) : CalculateHandType(cardCount);
         }
 
-        private Dictionary<int, int> CountCards(List<int> cards)
+        private void ParseCards(string description, bool isWithJokers)
+        {
+            foreach (var card in description)
+            {
+                Cards.Add(ParseCardValue(card, isWithJokers));
+            }
+        }
+
+        private int ParseCardValue(char card, bool isWithJokers)
+        {
+            return card switch
+            {
+                'A' => 14,
+                'K' => 13,
+                'Q' => 12,
+                'J' => isWithJokers ? 1 : 11,
+                'T' => 10,
+                _ => int.TryParse(card.ToString(), out var value)
+                    ? value
+                    : throw new ArgumentException("Invalid card value.")
+            };
+        }
+
+        private Dictionary<int, int> CountCards()
         {
             var cardCount = new Dictionary<int, int>();
 
-            foreach (var card in cards)
+            foreach (var card in Cards)
             {
-                if (cardCount.TryGetValue(card, out var value))
-                {
-                    cardCount[card] = value + 1;
-                }
-                else
-                {
-                    cardCount.Add(card, 1);
-                }
+                cardCount.TryGetValue(card, out var count);
+                cardCount[card] = count + 1;
             }
 
             return cardCount;
@@ -124,7 +116,7 @@ namespace AdventOfCode2023.Problems.Day7
 
         public override string ToString()
         {
-            return _description;
+            return Description;
         }
     }
 }
