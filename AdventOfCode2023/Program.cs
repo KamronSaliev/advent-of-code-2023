@@ -1,4 +1,4 @@
-﻿using AdventOfCode2023.Problems;
+﻿using AdventOfCode2023.Problems.Day7;
 
 namespace AdventOfCode2023
 {
@@ -17,7 +17,7 @@ namespace AdventOfCode2023
         
         private static void Solve()
         {
-            var problem = new Day6_WaitForIt("../../Problems/Day6_WaitForIt_Input.txt");
+            var problem = new Day7_CamelCards("../../Problems/Day7/Day7_CamelCards_Input.txt");
             problem.Solve();
         }
     }
