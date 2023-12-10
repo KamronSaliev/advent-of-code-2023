@@ -41,7 +41,7 @@
         <Reference Include="System.Xml"/>
     </ItemGroup>
     <ItemGroup>
-        <Compile Include="FileOperations.cs" />
+        <Compile Include="Problems\Common\FileOperations.cs" />
         <Compile Include="Problems\Day1\Day1_Trebuchet.cs" />
         <Compile Include="Problems\Day2\Day2_CubeConundrum.cs" />
         <Compile Include="Problems\Day3\Day3_GearRatios.cs" />

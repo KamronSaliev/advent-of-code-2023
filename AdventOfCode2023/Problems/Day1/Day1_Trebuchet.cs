@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using AdventOfCode2023.Common;
 
 namespace AdventOfCode2023.Problems.Day1
 {

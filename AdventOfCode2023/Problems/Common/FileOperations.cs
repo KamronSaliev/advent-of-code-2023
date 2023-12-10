@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 
-namespace AdventOfCode2023
+namespace AdventOfCode2023.Common
 {
     public static class FileOperations
     {
@@ -13,9 +13,9 @@ namespace AdventOfCode2023
             {
                 return File.ReadAllLines(path).ToList();
             }
-            catch (Exception e)
+            catch (Exception exception)
             {
-                Console.WriteLine($"An error occurred during read: {e.Message}");
+                Console.WriteLine($"An error occurred during read: {exception.Message}");
                 return new List<string>();
             }
         }
