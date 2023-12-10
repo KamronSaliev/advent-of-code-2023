@@ -3,29 +3,10 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 
-namespace AdventOfCode2023.Problems
+namespace AdventOfCode2023.Problems.Day5
 {
     public class Day5_IfYouGiveASeedAFertilizer
     {
-        private class MapData
-        {
-            public readonly long DestinationIndex;
-            public readonly long SourceIndex;
-            public readonly long Length;
-
-            public MapData(long destinationIndex, long sourceIndex, long length)
-            {
-                DestinationIndex = destinationIndex;
-                SourceIndex = sourceIndex;
-                Length = length;
-            }
-
-            public override string ToString()
-            {
-                return $"{SourceIndex} {DestinationIndex} {Length}";
-            }
-        }
-
         private const int SeedsLineIndex = 0;
         private const int MapsStartLineIndex = 3;
         private const int MapLineIndexIncrement = 2;
