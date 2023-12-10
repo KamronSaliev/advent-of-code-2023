@@ -15,21 +15,21 @@ namespace AdventOfCode2023.Problems.Day7
         {
             Description = description;
             Bid = bid;
-            ParseCards(description, isWithJokers);
+            ProcessCards(description, isWithJokers);
 
             var cardCount = CountCards();
             Type = isWithJokers ? CalculateHandTypeWithJokers(cardCount) : CalculateHandType(cardCount);
         }
 
-        private void ParseCards(string description, bool isWithJokers)
+        private void ProcessCards(string description, bool isWithJokers)
         {
             foreach (var card in description)
             {
-                Cards.Add(ParseCardValue(card, isWithJokers));
+                Cards.Add(ProcessCard(card, isWithJokers));
             }
         }
 
-        private int ParseCardValue(char card, bool isWithJokers)
+        private int ProcessCard(char card, bool isWithJokers)
         {
             return card switch
             {
