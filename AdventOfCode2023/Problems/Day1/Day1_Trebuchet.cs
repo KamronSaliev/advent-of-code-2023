@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace AdventOfCode2023.Problems
+namespace AdventOfCode2023.Problems.Day1
 {
     public class Day1_Trebuchet
     {
