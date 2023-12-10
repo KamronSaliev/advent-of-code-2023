@@ -43,7 +43,7 @@
     <ItemGroup>
         <Compile Include="FileOperations.cs" />
         <Compile Include="Problems\Day1\Day1_Trebuchet.cs" />
-        <Compile Include="Problems\Day2_CubeConundrum.cs" />
+        <Compile Include="Problems\Day2\Day2_CubeConundrum.cs" />
         <Compile Include="Problems\Day3_GearRatios.cs" />
         <Compile Include="Problems\Day4_Scratchcards.cs" />
         <Compile Include="Problems\Day5_IfYouGiveASeedAFertilizer.cs" />
@@ -57,7 +57,7 @@
     </ItemGroup>
     <ItemGroup>
       <Content Include="Problems\Day1\Day1_Trebuchet_Input.txt" />
-      <Content Include="Problems\Day2_CubeConundrum_Input.txt" />
+      <Content Include="Problems\Day2\Day2_CubeConundrum_Input.txt" />
       <Content Include="Problems\Day3_GearRatios_Input.txt" />
       <Content Include="Problems\Day4_Scratchcards_Input.txt" />
       <Content Include="Problems\Day5_IfYouGiveASeedAFertilizer_Input.txt" />
