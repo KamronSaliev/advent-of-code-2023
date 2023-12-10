@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
 
-namespace AdventOfCode2023.Problems
+namespace AdventOfCode2023.Problems.Day3
 {
     public class Day3_GearRatios
     {
