@@ -48,7 +48,7 @@
         <Compile Include="Problems\Day4\Day4_Scratchcards.cs" />
         <Compile Include="Problems\Day5\Day5_IfYouGiveASeedAFertilizer.cs" />
         <Compile Include="Problems\Day5\MapData.cs" />
-        <Compile Include="Problems\Day6_WaitForIt.cs" />
+        <Compile Include="Problems\Day6\Day6_WaitForIt.cs" />
         <Compile Include="Problems\Day7\Day7_CamelCards.cs" />
         <Compile Include="Problems\Day7\Hand.cs" />
         <Compile Include="Problems\Day7\HandComparer.cs" />
@@ -62,7 +62,7 @@
       <Content Include="Problems\Day3\Day3_GearRatios_Input.txt" />
       <Content Include="Problems\Day4\Day4_Scratchcards_Input.txt" />
       <Content Include="Problems\Day5\Day5_IfYouGiveASeedAFertilizer_Input.txt" />
-      <Content Include="Problems\Day6_WaitForIt_Input.txt" />
+      <Content Include="Problems\Day6\Day6_WaitForIt_Input.txt" />
       <Content Include="Problems\Day7\Day7_CamelCards_Input.txt" />
     </ItemGroup>
     <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets"/>

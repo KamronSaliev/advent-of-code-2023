@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
 
-namespace AdventOfCode2023.Problems
+namespace AdventOfCode2023.Problems.Day6
 {
     public class Day6_WaitForIt
     {
@@ -21,21 +21,21 @@ namespace AdventOfCode2023.Problems
             var lines = FileOperations.ReadLines(_inputPath);
             var times = ProcessLine(lines[TimeLineIndex]);
             var distances = ProcessLine(lines[DistanceLineIndex]);
-            
+
             var result1 = 1L;
-            
+
             for (var i = 0; i < times.Count; i++)
             {
                 var current = CalculateWaysToWin(times[i], distances[i]);
                 result1 *= current;
             }
-            
+
             Console.WriteLine($"Number of Ways to Win [Result 1]: {result1}");
 
             var totalTime = long.Parse(string.Join("", times));
             var totalDistance = long.Parse(string.Join("", distances));
             var result2 = CalculateWaysToWin(totalTime, totalDistance);
-            
+
             Console.WriteLine($"Number of Ways to Win [Result 2]: {result2}");
         }
 
