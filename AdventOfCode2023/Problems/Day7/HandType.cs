@@ -2,7 +2,7 @@ namespace AdventOfCode2023.Problems.Day7
 {
     public enum HandType
     {
-        HighCard  = 0,
+        HighCard = 0,
         OnePair = 1,
         TwoPair = 2,
         ThreeOfAKind = 3,

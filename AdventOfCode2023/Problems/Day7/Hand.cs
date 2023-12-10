@@ -7,14 +7,14 @@ namespace AdventOfCode2023.Problems.Day7
     {
         public readonly HandType Type;
         public readonly int Bid;
-        public readonly List<int> Cards = new List<int>();
-        
+        public readonly List<int> Cards = new();
+
         private readonly string _description;
 
-        public Hand(string description, int bid)
+        public Hand(string description, int bid, bool isWithJokers = false)
         {
             _description = description;
-            
+
             Bid = bid;
 
             foreach (var card in description)
@@ -31,7 +31,7 @@ namespace AdventOfCode2023.Problems.Day7
                         Cards.Add(12);
                         break;
                     case 'J':
-                        Cards.Add(11);
+                        Cards.Add(isWithJokers ? 1 : 11);
                         break;
                     case 'T':
                         Cards.Add(10);
@@ -41,9 +41,9 @@ namespace AdventOfCode2023.Problems.Day7
                         break;
                 }
             }
-            
+
             var cardCount = CountCards(Cards);
-            Type = CalculateHandType(cardCount);
+            Type = isWithJokers ? CalculateHandTypeWithJokers(cardCount) : CalculateHandType(cardCount);
         }
 
         private Dictionary<int, int> CountCards(List<int> cards)
@@ -65,28 +65,60 @@ namespace AdventOfCode2023.Problems.Day7
             return cardCount;
         }
 
+        private HandType CalculateHandTypeWithJokers(Dictionary<int, int> cardCount)
+        {
+            var handType = CalculateHandType(cardCount);
+
+            const int jokerValue = 1;
+
+            if (!cardCount.TryGetValue(jokerValue, out var jokerCount))
+            {
+                return handType;
+            }
+
+            handType = handType switch
+            {
+                HandType.FourOfAKind => HandType.FiveOfAKind,
+                HandType.FullHouse when jokerCount == 1 => HandType.FourOfAKind,
+                HandType.FullHouse => HandType.FiveOfAKind,
+                HandType.ThreeOfAKind => HandType.FourOfAKind,
+                HandType.TwoPair when jokerCount == 1 => HandType.FullHouse,
+                HandType.TwoPair => HandType.FourOfAKind,
+                HandType.OnePair => HandType.ThreeOfAKind,
+                HandType.HighCard => HandType.OnePair,
+                _ => handType
+            };
+
+            return handType;
+        }
+
         private HandType CalculateHandType(Dictionary<int, int> cardCount)
         {
             if (cardCount.Values.Any(i => i == 5))
             {
                 return HandType.FiveOfAKind;
             }
+
             if (cardCount.Values.Any(i => i == 4))
             {
                 return HandType.FourOfAKind;
             }
+
             if (cardCount.Values.Any(i => i == 3) && cardCount.Values.Any(i => i == 2))
             {
                 return HandType.FullHouse;
             }
+
             if (cardCount.Values.Any(i => i == 3))
             {
                 return HandType.ThreeOfAKind;
             }
+
             if (cardCount.Values.Count(i => i == 2) == 2)
             {
                 return HandType.TwoPair;
             }
+
             return cardCount.Values.Any(i => i == 2) ? HandType.OnePair : HandType.HighCard;
         }
 
