@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace AdventOfCode2023.Problems
+namespace AdventOfCode2023.Problems.Day4
 {
     public class Day4_Scratchcards
     {
