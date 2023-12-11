@@ -53,6 +53,7 @@
         <Compile Include="Problems\Day7\Hand.cs" />
         <Compile Include="Problems\Day7\HandComparer.cs" />
         <Compile Include="Problems\Day7\HandType.cs" />
+        <Compile Include="Problems\Day8\Day8_HauntedWasteland.cs" />
         <Compile Include="Program.cs"/>
         <Compile Include="Properties\AssemblyInfo.cs"/>
     </ItemGroup>
@@ -64,6 +65,7 @@
       <Content Include="Problems\Day5\Day5_IfYouGiveASeedAFertilizer_Input.txt" />
       <Content Include="Problems\Day6\Day6_WaitForIt_Input.txt" />
       <Content Include="Problems\Day7\Day7_CamelCards_Input.txt" />
+      <Content Include="Problems\Day8\Day8_HauntedWasteland_Input.txt" />
     </ItemGroup>
     <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets"/>
     <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
