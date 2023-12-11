@@ -9,10 +9,15 @@ namespace AdventOfCode2023.Problems.Day8
     public class Day8_HauntedWasteland
     {
         private const int InstructionsLineIndex = 0;
-        private const int MapLineIndex = 2;
-        private const int MapLineIndexIncrement = 1;
+        private const int MapStartLineIndex = 2;
 
         private readonly string _inputPath;
+
+        private enum Instruction
+        {
+            Left = 'L',
+            Right = 'R'
+        }
 
         public Day8_HauntedWasteland(string inputPath)
         {
@@ -21,103 +26,66 @@ namespace AdventOfCode2023.Problems.Day8
 
         public void Solve()
         {
-            var mapLineIndex = InstructionsLineIndex;
             var lines = FileOperations.ReadLines(_inputPath);
-            var instructions = ProcessInstructions(mapLineIndex, lines);
-            
-            mapLineIndex = MapLineIndex;
-            var map = ProcessMap(ref mapLineIndex, lines);
-            
-            var result1 = CountSteps(instructions, map);
-            Console.WriteLine($"Steps: {result1}");
-            
-            var result2 = CountStepsToEndingZNodes(instructions, map);
-            Console.WriteLine($"Steps to nodes Z: {result2}");
+            var instructions = ParseInstructions(lines[InstructionsLineIndex]);
+            Console.WriteLine(string.Join(",", instructions));
+
+            var map = ParseMap(lines.Skip(MapStartLineIndex));
+
+            var result1 = CountStepsToReachEndingNodes(instructions, map, "AAA", "ZZZ");
+            Console.WriteLine($"Steps to ZZZ node: {result1}");
+
+            var result2 = CountStepsToReachAllEndingNodes(instructions, map, "A", "Z");
+            Console.WriteLine($"Steps to all Z nodes: {result2}");
         }
 
-        private char[] ProcessInstructions(int lineIndex, List<string> lines)
+        private List<Instruction> ParseInstructions(string line)
         {
-            return lines[lineIndex].ToCharArray();
+            return line.Select(c => (Instruction)c).ToList();
         }
 
-        private Dictionary<string, (string, string)> ProcessMap(ref int lineIndex, List<string> lines)
+        private Dictionary<string, (string L, string R)> ParseMap(IEnumerable<string> lines)
         {
             var map = new Dictionary<string, (string, string)>();
 
-            while (lineIndex < lines.Count && lines[lineIndex] != string.Empty)
+            foreach (var line in lines.Where(line => !string.IsNullOrEmpty(line)))
             {
-                var line = lines[lineIndex];
                 var parsedData = Regex.Matches(line, "\\w+");
                 map.Add(parsedData[0].Value, (parsedData[1].Value, parsedData[2].Value));
-                lineIndex++;
             }
-
-            lineIndex += MapLineIndexIncrement;
 
             return map;
         }
-        
-        private long CountSteps(char[] instructions, Dictionary<string, (string L, string R)> map)
+
+        private long CountStepsToReachEndingNodes(IEnumerable<Instruction> instructions,
+            Dictionary<string, (string L, string R)> map, string current, string target)
         {
-            var currentKey = "AAA";
-            var count = 0;
+            return CountStepsToNode(instructions, map, current, target);
+        }
 
-            while (currentKey != "ZZZ")
+        private long CountStepsToReachAllEndingNodes(IEnumerable<Instruction> instructions,
+            Dictionary<string, (string L, string R)> map, string current, string target)
+        {
+            var startNodes = map.Keys.Where(key => key.EndsWith(current));
+            var steps = startNodes.Select(node => CountStepsToNode(instructions, map, node, target));
+            return CalculateLCM(steps);
+        }
+
+        private long CountStepsToNode(IEnumerable<Instruction> instructions,
+            Dictionary<string, (string L, string R)> map, string current, string target)
+        {
+            var instructionArray = instructions.ToArray();
+            var currentKey = current;
+            var count = 0L;
+
+            while (!currentKey.EndsWith(target))
             {
-                var instruction = instructions[count % instructions.Length];
-
-                switch (instruction)
-                {
-                    case 'L':
-                        currentKey = map[currentKey].L;
-                        count++;
-                        break;
-                    case 'R':
-                        currentKey = map[currentKey].R;
-                        count++;
-                        break;
-                    default:
-                        throw new InvalidOperationException("Invalid instruction");
-                }
+                var instruction = instructionArray[count % instructionArray.Length];
+                currentKey = instruction == Instruction.Left ? map[currentKey].L : map[currentKey].R;
+                count++;
             }
 
             return count;
-        }
-        
-        private long CountStepsToEndingZNodes(char[] instructions, Dictionary<string, (string L, string R)> map)
-        {
-            var endingANodes = map.Keys.Where(key => key.EndsWith("A")).ToList();
-            var steps = new List<long>();
-
-            foreach (var node in endingANodes)
-            {
-                var currentKey = node;
-                var count = 0;
-
-                while (!currentKey.EndsWith("Z"))
-                {
-                    var instruction = instructions[count % instructions.Length];
-
-                    switch (instruction)
-                    {
-                        case 'L':
-                            currentKey = map[currentKey].L;
-                            count++;
-                            break;
-                        case 'R':
-                            currentKey = map[currentKey].R;
-                            count++;
-                            break;
-                        default:
-                            throw new InvalidOperationException("Invalid instruction");
-                    }
-                }
-                
-                steps.Add(count);
-
-            }
-            
-            return CalculateLCM(steps);
         }
 
         private long CalculateLCM(IEnumerable<long> numbers)
@@ -132,7 +100,7 @@ namespace AdventOfCode2023.Problems.Day8
                 a %= b;
                 (a, b) = (b, a);
             }
-            
+
             return a;
         }
     }
