@@ -15,9 +15,8 @@ namespace AdventOfCode2023.Problems.Day9
             foreach (var numbers in numbersList)
             {
                 var differences = new List<List<int>> { numbers };
-                Console.WriteLine(string.Join(" ", numbers));
-                
                 var currentNumbers = numbers;
+                
                 while (currentNumbers.Exists(x => x != 0))
                 {
                     currentNumbers = new List<int>();
@@ -30,7 +29,16 @@ namespace AdventOfCode2023.Problems.Day9
 
                     differences.Add(currentNumbers);
                 }
+                
+                for (var i = differences.Count - 1; i > 0; i--)
+                {
+                    differences[i - 1].Add(differences[i - 1][^1] + differences[i][^1]);
+                }
+
+                result += differences[0][^1];
             }
+
+            Console.WriteLine($"Result: {result}");
         }
         
         private List<List<int>> ProcessLines(List<string> lines)
