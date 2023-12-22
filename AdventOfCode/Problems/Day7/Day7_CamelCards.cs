@@ -1,22 +1,14 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using AdventOfCode2023.Common;
+using AdventOfCode2023.Problems.Common;
 
 namespace AdventOfCode2023.Problems.Day7
 {
     public class Day7_CamelCards
     {
-        private readonly string _inputPath;
-
-        public Day7_CamelCards(string inputPath)
-        {
-            _inputPath = inputPath;
-        }
+        private const string InputPath = "../../../Problems/Day7/Day7_CamelCards_Input.txt";
 
         public void Solve()
         {
-            var lines = FileOperations.ReadLines(_inputPath);
+            var lines = FileOperations.ReadLines(InputPath);
 
             var result1 = CalculateTotalWinnings(lines, false);
             Console.WriteLine($"Total winnings: {result1}");

@@ -1,17 +1,14 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Text.RegularExpressions;
-using AdventOfCode2023.Common;
+using AdventOfCode2023.Problems.Common;
 
 namespace AdventOfCode2023.Problems.Day8
 {
     public class Day8_HauntedWasteland
     {
+        private const string InputPath = "../../../Problems/Day8/Day8_HauntedWasteland_Input.txt";
+        
         private const int InstructionsLineIndex = 0;
         private const int MapStartLineIndex = 2;
-
-        private readonly string _inputPath;
 
         private enum Instruction
         {
@@ -19,17 +16,10 @@ namespace AdventOfCode2023.Problems.Day8
             Right = 'R'
         }
 
-        public Day8_HauntedWasteland(string inputPath)
-        {
-            _inputPath = inputPath;
-        }
-
         public void Solve()
         {
-            var lines = FileOperations.ReadLines(_inputPath);
+            var lines = FileOperations.ReadLines(InputPath);
             var instructions = ParseInstructions(lines[InstructionsLineIndex]);
-            Console.WriteLine(string.Join(",", instructions));
-
             var map = ParseMap(lines.Skip(MapStartLineIndex));
 
             var result1 = CountStepsToReachEndingNodes(instructions, map, "AAA", "ZZZ");

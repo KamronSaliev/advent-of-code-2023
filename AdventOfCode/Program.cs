@@ -1,4 +1,4 @@
-﻿using AdventOfCode2023.Problems.Day8;
+﻿using AdventOfCode2023.Problems.Day9;
 
 namespace AdventOfCode2023
 {
@@ -17,7 +17,7 @@ namespace AdventOfCode2023
 
         private static void Solve()
         {
-            var problem = new Day8_HauntedWasteland("../../Problems/Day8/Day8_HauntedWasteland_Input.txt");
+            var problem = new Day9_MirageMaintenance();
             problem.Solve();
         }
     }

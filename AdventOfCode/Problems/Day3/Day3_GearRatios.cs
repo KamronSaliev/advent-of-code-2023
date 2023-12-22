@@ -1,25 +1,17 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Text.RegularExpressions;
-using AdventOfCode2023.Common;
+using AdventOfCode2023.Problems.Common;
 
 namespace AdventOfCode2023.Problems.Day3
 {
     public class Day3_GearRatios
     {
-        private readonly string _inputPath;
-        private readonly Dictionary<(int X, int Y), List<int>> _gears;
-
-        public Day3_GearRatios(string inputPath)
-        {
-            _inputPath = inputPath;
-            _gears = new Dictionary<(int X, int Y), List<int>>();
-        }
+        private const string InputPath = "../../../Problems/Day3/Day3_GearRatios_Input.txt";
+        
+        private readonly Dictionary<(int X, int Y), List<int>> _gears = new();
 
         public void Solve()
         {
-            var lines = FileOperations.ReadLines(_inputPath);
+            var lines = FileOperations.ReadLines(InputPath);
             var result = CalculateSum(lines);
             var resultGearRatio = CalculateGearRatio();
 

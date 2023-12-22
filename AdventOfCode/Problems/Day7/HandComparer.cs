@@ -1,11 +1,8 @@
-using System;
-using System.Collections.Generic;
-
 namespace AdventOfCode2023.Problems.Day7
 {
     public class HandComparer : Comparer<Hand>
     {
-        public override int Compare(Hand x, Hand y)
+        public override int Compare(Hand? x, Hand? y)
         {
             if (x == null || y == null)
             {

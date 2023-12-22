@@ -1,23 +1,15 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-using AdventOfCode2023.Common;
+using AdventOfCode2023.Problems.Common;
 
 namespace AdventOfCode2023.Problems.Day4
 {
     public class Day4_Scratchcards
     {
-        private readonly string _inputPath;
-
-        public Day4_Scratchcards(string inputPath)
-        {
-            _inputPath = inputPath;
-        }
-
+        private const string InputPath = "../../../Problems/Day4/Day4_Scratchcards_Input.txt";
+        
         public void Solve()
         {
-            var lines = FileOperations.ReadLines(_inputPath);
+            var lines = FileOperations.ReadLines(InputPath);
             var result = CalculateSum(lines);
             var totalCardCount = CalculateTotalCardCount(lines);
 

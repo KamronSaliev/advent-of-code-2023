@@ -1,25 +1,18 @@
-using System;
-using System.Collections.Generic;
 using System.Text.RegularExpressions;
-using AdventOfCode2023.Common;
+using AdventOfCode2023.Problems.Common;
 
 namespace AdventOfCode2023.Problems.Day6
 {
     public class Day6_WaitForIt
     {
+        private const string InputPath = "../../../Problems/Day6/Day6_WaitForIt_Input.txt";
+        
         private const int TimeLineIndex = 0;
         private const int DistanceLineIndex = 1;
 
-        private readonly string _inputPath;
-
-        public Day6_WaitForIt(string inputPath)
-        {
-            _inputPath = inputPath;
-        }
-
         public void Solve()
         {
-            var lines = FileOperations.ReadLines(_inputPath);
+            var lines = FileOperations.ReadLines(InputPath);
             var times = ProcessLine(lines[TimeLineIndex]);
             var distances = ProcessLine(lines[DistanceLineIndex]);
 

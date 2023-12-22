@@ -1,30 +1,22 @@
-using System;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
-using AdventOfCode2023.Common;
+using AdventOfCode2023.Problems.Common;
 
 namespace AdventOfCode2023.Problems.Day5
 {
     public class Day5_IfYouGiveASeedAFertilizer
     {
+        private const string InputPath = "../../../Problems/Day5/Day5_IfYouGiveASeedAFertilizer_Input.txt";
+        
         private const int SeedsLineIndex = 0;
         private const int MapsStartLineIndex = 3;
         private const int MapLineIndexIncrement = 2;
         private const int MapsCount = 7;
 
-        private readonly string _inputPath;
-
-        public Day5_IfYouGiveASeedAFertilizer(string inputPath)
-        {
-            _inputPath = inputPath;
-        }
-
         public void Solve()
         {
             var watch = Stopwatch.StartNew();
 
-            var lines = FileOperations.ReadLines(_inputPath);
+            var lines = FileOperations.ReadLines(InputPath);
             var seeds = ProcessNumbers(SeedsLineIndex, lines);
             var seedRanges = ProcessNumberRanges(SeedsLineIndex, lines);
             var maps = ProcessMaps(lines);

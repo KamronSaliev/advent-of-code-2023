@@ -1,22 +1,14 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using AdventOfCode2023.Common;
+using AdventOfCode2023.Problems.Common;
 
 namespace AdventOfCode2023.Problems.Day2
 {
     public class Day2_CubeConundrum
     {
-        private readonly string _inputPath;
-
-        public Day2_CubeConundrum(string inputPath)
-        {
-            _inputPath = inputPath;
-        }
-
+        private const string InputPath = "../../../Problems/Day2/Day2_CubeConundrum_Input.txt";
+        
         public void Solve()
         {
-            var lines = FileOperations.ReadLines(_inputPath);
+            var lines = FileOperations.ReadLines(InputPath);
             var possibleGameIDs = GetPossibleGameIDs(lines);
             var result = possibleGameIDs.Sum();
             Console.WriteLine($"Sum: {result}");
@@ -47,8 +39,6 @@ namespace AdventOfCode2023.Problems.Day2
                 maxBlue = Math.Max(maxBlue, blue);
             }
             
-            Console.WriteLine($"{maxRed}*{maxGreen}*{maxBlue}={maxRed * maxGreen * maxBlue}");
-
             return maxRed * maxGreen * maxBlue;
         }
 

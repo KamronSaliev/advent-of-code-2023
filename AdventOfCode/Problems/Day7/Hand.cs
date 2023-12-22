@@ -1,7 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-
 namespace AdventOfCode2023.Problems.Day7
 {
     public class Hand
